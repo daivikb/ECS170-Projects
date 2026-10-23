@@ -1,4 +1,3 @@
-
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
@@ -108,7 +107,7 @@ class Method_MLP(method, nn.Module):
     def __init__(self, config):
         method.__init__(self, config['name'], 'Multilayer perceptron')
         nn.Module.__init__(self)
-        torch.manual_seed(42)
+        torch.manual_seed(config['seed'])
         self.config = config
         layers = []
         width = 784
@@ -145,14 +144,14 @@ class Method_MLP(method, nn.Module):
             correct += (logits.argmax(1) == yb).sum().item()
         return loss / len(y), cross_entropy / len(y), correct / len(y)
 
-    def fit(self, x, y):
+    def fit(self, x, y, x_eval=None, y_eval=None):
         c = self.config
         optimizers = {'adam': torch.optim.Adam, 'adamw': torch.optim.AdamW,
                       'sgd': torch.optim.SGD}
         options = {'momentum': 0.9} if c['optimizer'] == 'sgd' else {}
         optimizer = optimizers[c['optimizer']](self.parameters(), lr=c['lr'],
                                                weight_decay=c['weight_decay'], **options)
-        generator = torch.Generator().manual_seed(42)
+        generator = torch.Generator().manual_seed(c['seed'])
         self.history = []
         for epoch in range(1, 21):
             self.train()
@@ -164,8 +163,13 @@ class Method_MLP(method, nn.Module):
                 loss.backward()
                 optimizer.step()
             loss, cross_entropy, accuracy = self.snapshot(x, y)
-            self.history.append([epoch, loss, cross_entropy, accuracy])
-            print(f"{c['name']} epoch {epoch:2}: loss={loss:.6f}, accuracy={accuracy:.2%}", flush=True)
+            # Test metrics are recorded for plotting only; they never influence training.
+            test_loss, test_ce, test_acc = self.snapshot(x_eval, y_eval)
+            self.history.append([epoch, loss, cross_entropy, accuracy,
+                                 test_loss, test_ce, test_acc])
+            print(f"{c['name']} seed {c['seed']} epoch {epoch:2}: train loss={loss:.6f}, "
+                  f"train acc={accuracy:.2%}, test CE={test_ce:.6f}, test acc={test_acc:.2%}",
+                  flush=True)
 
     @torch.inference_mode()
     def predict(self, x):
@@ -173,7 +177,7 @@ class Method_MLP(method, nn.Module):
         return torch.cat([self(batch).argmax(1) for batch in x.split(2048)]).numpy()
 
     def run(self, data):
-        self.fit(*data['train'])
+        self.fit(*data['train'], *data['test'])
         return self.predict(data['test'][0])
 
 
@@ -198,17 +202,18 @@ class Result_Saver(result):
         self.folder = Path(folder)
 
     def save(self, model, truth, predictions, scores):
-        folder = self.folder / model.config['name']
+        folder = self.folder / model.config['name'] / f"seed_{model.config['seed']}"
         folder.mkdir(parents=True, exist_ok=True)
         (folder / 'metrics.json').write_text(json.dumps(scores, indent=2))
         np.savetxt(folder / 'history.csv', model.history, delimiter=',',
-                   header='epoch,loss,cross_entropy,accuracy', comments='')
+                   header='epoch,loss,cross_entropy,accuracy,test_loss,test_cross_entropy,test_accuracy',
+                   comments='')
         np.savetxt(folder / 'predictions.csv', np.column_stack([truth, predictions]),
                    delimiter=',', fmt='%d', header='true_label,predicted_label', comments='')
         torch.save({'config': model.config, 'state_dict': model.state_dict()}, folder / 'model.pt')
 
-    def load(self, name):
-        return json.loads((self.folder / name / 'metrics.json').read_text())
+    def load(self, name, seed):
+        return json.loads((self.folder / name / f'seed_{seed}' / 'metrics.json').read_text())
 
 
 class Setting_Predefined_Split(setting):
@@ -222,41 +227,61 @@ class Setting_Predefined_Split(setting):
         return scores
 
 
-def plot_results(folder, results):
+def load_histories(folder, name, seeds):
+    return np.stack([np.loadtxt(folder / name / f'seed_{seed}' / 'history.csv',
+                                delimiter=',', skiprows=1) for seed in seeds])
+
+
+def plot_results(folder, results, seeds):
     folder = Path(folder)
     figures = folder / 'figures'
     figures.mkdir(exist_ok=True)
-    for column, filename, ylabel, scale in [
-        (2, '01_loss_vs_epoch', 'Training cross-entropy', 1),
-        (3, '02_accuracy_vs_epoch', 'Training accuracy (%)', 100),
+    epochs = np.arange(1, 21)
+    colors = {name: f'C{i}' for i, name in enumerate(results)}
+    histories = {name: load_histories(folder, name, seeds) for name in results}
+
+    # Train vs. test curves: line = mean over seeds, band = +/- 1 std over seeds.
+    for columns, filename, ylabel, scale, log in [
+        ((2, 5), '01_loss_vs_epoch', 'Cross-entropy', 1, True),
+        ((3, 6), '02_accuracy_vs_epoch', 'Accuracy (%)', 100, False),
     ]:
-        fig, ax = plt.subplots(figsize=(7, 4), layout='constrained')
-        for name in results:
-            history = np.loadtxt(folder / name / 'history.csv', delimiter=',', skiprows=1)
-            ax.plot(history[:, 0], history[:, column] * scale, label=name)
-        ax.set(xlabel='Epoch', ylabel=ylabel, xticks=[1, 5, 10, 15, 20])
-        if column == 2:
-            ax.set_yscale('log')
-        ax.legend(fontsize=8)
-        ax.grid(alpha=0.2)
+        fig, axes = plt.subplots(1, 2, figsize=(11, 4), layout='constrained', sharey=log)
+        for ax, column, title in zip(axes, columns, ['Training set', 'Test set']):
+            for name, h in histories.items():
+                values = h[:, :, column] * scale
+                mean = values.mean(0)
+                ax.plot(epochs, mean, label=name, color=colors[name])
+                if len(seeds) > 1:
+                    ax.fill_between(epochs, mean - values.std(0, ddof=1),
+                                    mean + values.std(0, ddof=1), color=colors[name], alpha=0.2)
+            ax.set(xlabel='Epoch', ylabel=ylabel, xticks=[1, 5, 10, 15, 20],
+                   title=f'{title} (mean over {len(seeds)} seeds)')
+            if log:
+                ax.set_yscale('log')
+            elif column == 6:
+                ax.set_ylim(96, 99)
+            ax.grid(alpha=0.2)
+        axes[0].legend(fontsize=8)
         fig.savefig(figures / f'{filename}.png', dpi=220)
         plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(7, 4), layout='constrained')
     positions = np.arange(len(results))
-    for offset, label, values in [
-        (-0.18, 'Accuracy', [s['accuracy'] * 100 for s in results.values()]),
-        (0.18, 'Macro F1', [s['macro']['f1'] * 100 for s in results.values()]),
-    ]:
-        bars = ax.bar(positions + offset, values, 0.36, label=label)
-        ax.bar_label(bars, fmt='%.2f', fontsize=7, padding=3)
+    for offset, label, key in [(-0.18, 'Accuracy', lambda s: s['accuracy']),
+                               (0.18, 'Macro F1', lambda s: s['macro']['f1'])]:
+        values = np.array([[key(s) * 100 for s in runs] for runs in results.values()])
+        errors = values.std(1, ddof=1) if len(seeds) > 1 else None
+        bars = ax.bar(positions + offset, values.mean(1), 0.36, yerr=errors,
+                      capsize=3, label=label)
+        ax.bar_label(bars, fmt='%.2f', fontsize=7, padding=8)
     ax.set(xticks=positions, xticklabels=[name[0] for name in results],
-           xlabel='Experiment', ylabel='Test score (%)', ylim=(0, 108))
+           xlabel='Experiment', ylabel=f'Test score (%), mean +/- std over {len(seeds)} seeds',
+           ylim=(0, 108))
     ax.legend(loc='lower right')
     fig.savefig(figures / '03_test_performance_comparison.png', dpi=220)
     plt.close(fig)
 
-    primary = results['F_regularized']
+    primary = results['F_regularized'][0]  # first seed
     matrix = np.array(primary['confusion_matrix'])
     fig, ax = plt.subplots(figsize=(6, 5), layout='constrained')
     ax.imshow(matrix, cmap='Blues')
@@ -265,7 +290,7 @@ def plot_results(folder, results):
             ax.text(j, i, str(matrix[i, j]), ha='center', va='center', fontsize=8,
                     color='white' if matrix[i, j] > matrix.max() / 2 else 'black')
     ax.set(xticks=range(10), yticks=range(10), xlabel='Predicted label',
-           ylabel='True label', title='F_regularized: test confusion matrix')
+           ylabel='True label', title=f'F_regularized: test confusion matrix (seed {seeds[0]})')
     fig.savefig(figures / '04_confusion_matrix.png', dpi=220)
     plt.close(fig)
 
@@ -273,7 +298,7 @@ def plot_results(folder, results):
     for metric in ['precision', 'recall', 'f1']:
         ax.plot(range(10), [c[metric] * 100 for c in primary['per_class']], marker='o', label=metric)
     ax.set(xticks=range(10), xlabel='Class label', ylabel='Test score (%)', ylim=(95, 100),
-           title='F_regularized: per-class metrics')
+           title=f'F_regularized: per-class metrics (seed {seeds[0]})')
     ax.legend()
     ax.grid(alpha=0.2)
     fig.savefig(figures / '05_per_class_metrics.png', dpi=220)
@@ -304,6 +329,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data-dir', type=Path, default=default_data)
     parser.add_argument('--output-dir', type=Path, default=root / 'results')
+    parser.add_argument('--seeds', type=int, nargs='+', default=[42, 43, 44])
     args = parser.parse_args()
     if not all((args.data_dir / name).is_file() for name in ['train.csv', 'test.csv']):
         parser.error('Dataset not found. Use --data-dir followed by the folder containing train.csv and test.csv')
@@ -321,18 +347,32 @@ def main():
                dict(base, name='F_regularized', optimizer='adamw', dropout=0.2, weight_decay=0.0001)]
     results = {}
     for config in configs:
-        experiment = Setting_Predefined_Split('Predefined split')
-        experiment.prepare(loader, Method_MLP(config), Result_Saver(args.output_dir), Evaluate_Metrics())
-        scores = experiment.load_run_save_evaluate(data)
-        results[config['name']] = scores
-        print(f"{config['name']}: test accuracy = {scores['accuracy']:.2%}", flush=True)
+        results[config['name']] = []
+        for seed in args.seeds:
+            run_config = dict(config, seed=seed)
+            experiment = Setting_Predefined_Split('Predefined split')
+            experiment.prepare(loader, Method_MLP(run_config), Result_Saver(args.output_dir),
+                               Evaluate_Metrics())
+            scores = experiment.load_run_save_evaluate(data)
+            results[config['name']].append(scores)
+            print(f"{config['name']} seed {seed}: test accuracy = {scores['accuracy']:.2%}", flush=True)
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+
+    def mean_std(values):
+        return float(np.mean(values)), float(np.std(values, ddof=1)) if len(values) > 1 else 0.0
+
     with (args.output_dir / 'comparison.csv').open('w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['experiment', 'accuracy', 'macro_precision', 'macro_recall', 'macro_f1'])
-        for name, scores in results.items():
-            writer.writerow([name, scores['accuracy'], scores['macro']['precision'],
-                             scores['macro']['recall'], scores['macro']['f1']])
-    plot_results(args.output_dir, results)
+        writer.writerow(['experiment', 'n_seeds', 'accuracy_mean', 'accuracy_std',
+                         'macro_precision_mean', 'macro_precision_std', 'macro_recall_mean',
+                         'macro_recall_std', 'macro_f1_mean', 'macro_f1_std'])
+        for name, runs in results.items():
+            row = [name, len(runs)]
+            for get in [lambda s: s['accuracy'], lambda s: s['macro']['precision'],
+                        lambda s: s['macro']['recall'], lambda s: s['macro']['f1']]:
+                row.extend(mean_std([get(s) for s in runs]))
+            writer.writerow(row)
+    plot_results(args.output_dir, results, args.seeds)
 
 
 if __name__ == '__main__':

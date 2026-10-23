@@ -1,7 +1,0 @@
-A_baseline: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-B_two_hidden: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-C_three_hidden: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-D_sgd: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-E_mse: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-F_regularized: identical final weights, all 10,000 predictions, all metrics and all 20 history rows
-Exactly one submission file; five statistical graphs and architecture diagram generated successfully.
