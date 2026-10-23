@@ -236,9 +236,9 @@ def plot_results(folder, results, seeds):
     folder = Path(folder)
     figures = folder / 'figures'
     figures.mkdir(exist_ok=True)
-    epochs = np.arange(1, 21)
     colors = {name: f'C{i}' for i, name in enumerate(results)}
     histories = {name: load_histories(folder, name, seeds) for name in results}
+    epochs = np.arange(1, next(iter(histories.values())).shape[1] + 1)
 
     # Train vs. test curves: line = mean over seeds, band = +/- 1 std over seeds.
     for columns, filename, ylabel, scale, log in [
@@ -279,27 +279,41 @@ def plot_results(folder, results, seeds):
     fig.savefig(figures / '03_test_performance_comparison.png', dpi=220)
     plt.close(fig)
 
-    primary = results['F_regularized'][0]  # first seed
-    matrix = np.array(primary['confusion_matrix'])
-    fig, ax = plt.subplots(figsize=(6, 5), layout='constrained')
-    ax.imshow(matrix, cmap='Blues')
-    for i in range(10):
-        for j in range(10):
-            ax.text(j, i, str(matrix[i, j]), ha='center', va='center', fontsize=8,
-                    color='white' if matrix[i, j] > matrix.max() / 2 else 'black')
-    ax.set(xticks=range(10), yticks=range(10), xlabel='Predicted label',
-           ylabel='True label', title=f'F_regularized: test confusion matrix (seed {seeds[0]})')
-    fig.savefig(figures / '04_confusion_matrix.png', dpi=220)
+    # Confusion matrices for every model A-F (counts summed over all seeds).
+    fig, axes = plt.subplots(2, 3, figsize=(15, 9.5), layout='constrained')
+    for ax, (name, runs) in zip(axes.flat, results.items()):
+        matrix = np.sum([r['confusion_matrix'] for r in runs], axis=0)
+        ax.imshow(matrix, cmap='Blues')
+        for i in range(10):
+            for j in range(10):
+                ax.text(j, i, str(matrix[i, j]), ha='center', va='center', fontsize=7,
+                        color='white' if matrix[i, j] > matrix.max() / 2 else 'black')
+        accuracy = np.trace(matrix) / matrix.sum() * 100
+        ax.set(xticks=range(10), yticks=range(10), xlabel='Predicted label', ylabel='True label',
+               title=f'{name} (accuracy {accuracy:.2f}%)')
+    for ax in list(axes.flat)[len(results):]:
+        ax.axis('off')
+    fig.suptitle(f'Test confusion matrices, counts summed over {len(seeds)} seeds')
+    fig.savefig(figures / '04_confusion_matrix.png', dpi=200)
     plt.close(fig)
 
-    fig, ax = plt.subplots(figsize=(7, 4), layout='constrained')
-    for metric in ['precision', 'recall', 'f1']:
-        ax.plot(range(10), [c[metric] * 100 for c in primary['per_class']], marker='o', label=metric)
-    ax.set(xticks=range(10), xlabel='Class label', ylabel='Test score (%)', ylim=(95, 100),
-           title=f'F_regularized: per-class metrics (seed {seeds[0]})')
-    ax.legend()
-    ax.grid(alpha=0.2)
-    fig.savefig(figures / '05_per_class_metrics.png', dpi=220)
+    # Per-class precision / recall / F1 for every model A-F (mean over seeds).
+    per_class = {name: np.array([[[c[m] * 100 for c in r['per_class']] for m in
+                                  ('precision', 'recall', 'f1')] for r in runs]).mean(0)
+                 for name, runs in results.items()}
+    low = np.floor(min(v.min() for v in per_class.values())) - 0.5
+    fig, axes = plt.subplots(2, 3, figsize=(15, 7), layout='constrained', sharey=True)
+    for ax, (name, values) in zip(axes.flat, per_class.items()):
+        for metric, row in zip(('precision', 'recall', 'f1'), values):
+            ax.plot(range(10), row, marker='o', markersize=4, label=metric)
+        ax.set(xticks=range(10), xlabel='Class label', ylabel='Test score (%)',
+               ylim=(low, 100), title=name)
+        ax.grid(alpha=0.2)
+    for ax in list(axes.flat)[len(results):]:
+        ax.axis('off')
+    axes.flat[0].legend(loc='lower right')
+    fig.suptitle(f'Per-class test metrics, mean over {len(seeds)} seeds')
+    fig.savefig(figures / '05_per_class_metrics.png', dpi=200)
     plt.close(fig)
 
     fig, ax = plt.subplots(figsize=(10, 2), layout='constrained')
@@ -318,48 +332,28 @@ def plot_results(folder, results, seeds):
     plt.close(fig)
 
 
-def main():
-    root = Path(__file__).resolve().parent
-    folders = [root / 'data', root / 'stage_2_data', root / 'data/stage_2_data',
-               root.parent / 'data/stage_2_data']
-    default_data = next((p for p in folders if (p / 'train.csv').is_file()
-                         and (p / 'test.csv').is_file()), root / 'data')
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--data-dir', type=Path, default=default_data)
-    parser.add_argument('--output-dir', type=Path, default=root / 'results')
-    parser.add_argument('--seeds', type=int, nargs='+', default=[42, 43, 44])
-    args = parser.parse_args()
-    if not all((args.data_dir / name).is_file() for name in ['train.csv', 'test.csv']):
-        parser.error('Dataset not found. Use --data-dir followed by the folder containing train.csv and test.csv')
-    torch.set_num_threads(4)
-    torch.use_deterministic_algorithms(True)
-    loader = Dataset_Loader(args.data_dir)
-    data = loader.load()
-    base = dict(hidden=[256, 128], loss='cross_entropy', optimizer='adam', lr=0.001,
-                dropout=0, weight_decay=0)
-    configs = [dict(base, name='A_baseline', hidden=[128]),
-               dict(base, name='B_two_hidden'),
-               dict(base, name='C_three_hidden', hidden=[256, 128, 64]),
-               dict(base, name='D_sgd', optimizer='sgd', lr=0.1),
-               dict(base, name='E_mse', loss='mse'),
-               dict(base, name='F_regularized', optimizer='adamw', dropout=0.2, weight_decay=0.0001)]
-    results = {}
-    for config in configs:
-        results[config['name']] = []
-        for seed in args.seeds:
-            run_config = dict(config, seed=seed)
-            experiment = Setting_Predefined_Split('Predefined split')
-            experiment.prepare(loader, Method_MLP(run_config), Result_Saver(args.output_dir),
-                               Evaluate_Metrics())
-            scores = experiment.load_run_save_evaluate(data)
-            results[config['name']].append(scores)
-            print(f"{config['name']} seed {seed}: test accuracy = {scores['accuracy']:.2%}", flush=True)
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+def load_results(folder, names):
+    """Read the saved metrics of every model (A-F) for the seeds present for all of them."""
+    folder = Path(folder)
+    found = [{int(p.name[5:]) for p in (folder / name).glob('seed_*') if (p / 'metrics.json').is_file()}
+             for name in names]
+    seeds = sorted(set.intersection(*found))
+    if not seeds:
+        raise SystemExit(f'No seed_* results found for all of {names} in {folder}')
+    results = {name: [json.loads((folder / name / f'seed_{seed}' / 'metrics.json').read_text())
+                      for seed in seeds] for name in names}
+    print(f'Loaded saved results for seeds {seeds}', flush=True)
+    return results, seeds
+
+
+def write_comparison(folder, results):
+    folder = Path(folder)
+    folder.mkdir(parents=True, exist_ok=True)
 
     def mean_std(values):
-        return float(np.mean(values)), float(np.std(values, ddof=1)) if len(values) > 1 else 0.0
+        return float(np.mean(values)), (float(np.std(values, ddof=1)) if len(values) > 1 else 0.0)
 
-    with (args.output_dir / 'comparison.csv').open('w', newline='') as file:
+    with (folder / 'comparison.csv').open('w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['experiment', 'n_seeds', 'accuracy_mean', 'accuracy_std',
                          'macro_precision_mean', 'macro_precision_std', 'macro_recall_mean',
@@ -370,8 +364,53 @@ def main():
                         lambda s: s['macro']['recall'], lambda s: s['macro']['f1']]:
                 row.extend(mean_std([get(s) for s in runs]))
             writer.writerow(row)
-    plot_results(args.output_dir, results, args.seeds)
 
+
+def main():
+    root = Path(__file__).resolve().parent
+    folders = [root / 'data', root / 'stage_2_data', root / 'data/stage_2_data',
+               root.parent / 'data/stage_2_data']
+    default_data = next((p for p in folders if (p / 'train.csv').is_file()
+                         and (p / 'test.csv').is_file()), root / 'data')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data-dir', type=Path, default=default_data)
+    parser.add_argument('--output-dir', type=Path, default=root / 'results')
+    parser.add_argument('--seeds', type=int, nargs='+', default=[42, 43, 44])
+    parser.add_argument('--plot-only', action='store_true',
+                        help='Skip training: rebuild comparison.csv and all figures (models A-F) '
+                             'from the seed_* folders already saved in --output-dir')
+    args = parser.parse_args()
+    base = dict(hidden=[256, 128], loss='cross_entropy', optimizer='adam', lr=0.001,
+                dropout=0, weight_decay=0)
+    configs = [dict(base, name='A_baseline', hidden=[128]),
+               dict(base, name='B_two_hidden'),
+               dict(base, name='C_three_hidden', hidden=[256, 128, 64]),
+               dict(base, name='D_sgd', optimizer='sgd', lr=0.1),
+               dict(base, name='E_mse', loss='mse'),
+               dict(base, name='F_regularized', optimizer='adamw', dropout=0.2, weight_decay=0.0001)]
+    if args.plot_only:
+        results, seeds = load_results(args.output_dir, [c['name'] for c in configs])
+    else:
+        if not all((args.data_dir / name).is_file() for name in ['train.csv', 'test.csv']):
+            parser.error('Dataset not found. Use --data-dir followed by the folder containing train.csv and test.csv')
+        torch.set_num_threads(4)
+        torch.use_deterministic_algorithms(True)
+        loader = Dataset_Loader(args.data_dir)
+        data = loader.load()
+        seeds = args.seeds
+        results = {}
+        for config in configs:
+            results[config['name']] = []
+            for seed in seeds:
+                run_config = dict(config, seed=seed)
+                experiment = Setting_Predefined_Split('Predefined split')
+                experiment.prepare(loader, Method_MLP(run_config), Result_Saver(args.output_dir),
+                                   Evaluate_Metrics())
+                scores = experiment.load_run_save_evaluate(data)
+                results[config['name']].append(scores)
+                print(f"{config['name']} seed {seed}: test accuracy = {scores['accuracy']:.2%}", flush=True)
+    write_comparison(args.output_dir, results)
+    plot_results(args.output_dir, results, seeds)
 
 if __name__ == '__main__':
     main()
