@@ -258,8 +258,6 @@ def plot_results(folder, results, seeds):
                    title=f'{title} (mean over {len(seeds)} seeds)')
             if log:
                 ax.set_yscale('log')
-            elif column == 6:
-                ax.set_ylim(96, 99)
             ax.grid(alpha=0.2)
         axes[0].legend(fontsize=8)
         fig.savefig(figures / f'{filename}.png', dpi=220)
