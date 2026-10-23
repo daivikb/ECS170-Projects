@@ -1,3 +1,15 @@
+
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "matplotlib",
+#     "numpy",
+#     "torch",
+#     "scikit-learn",
+# ]
+# ///
+
 import argparse
 import csv
 import json
