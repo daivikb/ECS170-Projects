@@ -1,0 +1,126 @@
+{
+  "status": "passed",
+  "source_sha256": "859e1f89026b347ecba49e3533e224c0e1130f7e196d0fb145caf1aaba729909",
+  "checks": [
+    {
+      "dataset": "MNIST",
+      "variant": "A_baseline",
+      "seed": 42,
+      "predictions": 10000,
+      "accuracy": 0.9874,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "A_baseline",
+      "seed": 43,
+      "predictions": 10000,
+      "accuracy": 0.9868,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "A_baseline",
+      "seed": 44,
+      "predictions": 10000,
+      "accuracy": 0.9885,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "B_deeper",
+      "seed": 42,
+      "predictions": 10000,
+      "accuracy": 0.9909,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "B_deeper",
+      "seed": 43,
+      "predictions": 10000,
+      "accuracy": 0.9888,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "B_deeper",
+      "seed": 44,
+      "predictions": 10000,
+      "accuracy": 0.987,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "C_average_pool",
+      "seed": 42,
+      "predictions": 10000,
+      "accuracy": 0.9884,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "C_average_pool",
+      "seed": 43,
+      "predictions": 10000,
+      "accuracy": 0.9889,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "C_average_pool",
+      "seed": 44,
+      "predictions": 10000,
+      "accuracy": 0.9898,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "D_mse",
+      "seed": 42,
+      "predictions": 10000,
+      "accuracy": 0.9878,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "D_mse",
+      "seed": 43,
+      "predictions": 10000,
+      "accuracy": 0.9873,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "MNIST",
+      "variant": "D_mse",
+      "seed": 44,
+      "predictions": 10000,
+      "accuracy": 0.9875,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    }
+  ]
+}

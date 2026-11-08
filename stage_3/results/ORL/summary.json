@@ -1,0 +1,54 @@
+[
+  {
+    "dataset": "ORL",
+    "experiment": "A_baseline",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.9249999999999999,
+    "accuracy_sd": 0.07500000000000001,
+    "precision_mean": 0.8958333333333334,
+    "precision_sd": 0.11342214657346832,
+    "recall_mean": 0.9249999999999999,
+    "recall_sd": 0.07500000000000001,
+    "f1_mean": 0.9055555555555556,
+    "f1_sd": 0.10046189622236178
+  },
+  {
+    "dataset": "ORL",
+    "experiment": "B_deeper",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.9666666666666667,
+    "accuracy_sd": 0.014433756729740658,
+    "precision_mean": 0.9500000000000001,
+    "precision_sd": 0.021650635094610952,
+    "recall_mean": 0.9666666666666667,
+    "recall_sd": 0.014433756729740658,
+    "f1_mean": 0.9555555555555554,
+    "f1_sd": 0.01924500897298752
+  },
+  {
+    "dataset": "ORL",
+    "experiment": "C_average_pool",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.9499999999999998,
+    "accuracy_sd": 0.024999999999999967,
+    "precision_mean": 0.9291666666666666,
+    "precision_sd": 0.0381881307912987,
+    "recall_mean": 0.9499999999999998,
+    "recall_sd": 0.024999999999999967,
+    "f1_mean": 0.9361111111111112,
+    "f1_sd": 0.03367876570272821
+  },
+  {
+    "dataset": "ORL",
+    "experiment": "D_mse",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.875,
+    "accuracy_sd": 0.043301270189221974,
+    "precision_mean": 0.8222222222222223,
+    "precision_sd": 0.05548606765399491,
+    "recall_mean": 0.875,
+    "recall_sd": 0.043301270189221974,
+    "f1_mean": 0.8388888888888889,
+    "f1_sd": 0.05176290320440063
+  }
+]

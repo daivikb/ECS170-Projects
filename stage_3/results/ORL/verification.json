@@ -1,0 +1,126 @@
+{
+  "status": "passed",
+  "source_sha256": "859e1f89026b347ecba49e3533e224c0e1130f7e196d0fb145caf1aaba729909",
+  "checks": [
+    {
+      "dataset": "ORL",
+      "variant": "A_baseline",
+      "seed": 42,
+      "predictions": 40,
+      "accuracy": 1.0,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "A_baseline",
+      "seed": 43,
+      "predictions": 40,
+      "accuracy": 0.925,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "A_baseline",
+      "seed": 44,
+      "predictions": 40,
+      "accuracy": 0.85,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "B_deeper",
+      "seed": 42,
+      "predictions": 40,
+      "accuracy": 0.975,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "B_deeper",
+      "seed": 43,
+      "predictions": 40,
+      "accuracy": 0.975,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "B_deeper",
+      "seed": 44,
+      "predictions": 40,
+      "accuracy": 0.95,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "C_average_pool",
+      "seed": 42,
+      "predictions": 40,
+      "accuracy": 0.975,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "C_average_pool",
+      "seed": 43,
+      "predictions": 40,
+      "accuracy": 0.95,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "C_average_pool",
+      "seed": 44,
+      "predictions": 40,
+      "accuracy": 0.925,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "D_mse",
+      "seed": 42,
+      "predictions": 40,
+      "accuracy": 0.9,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "D_mse",
+      "seed": 43,
+      "predictions": 40,
+      "accuracy": 0.9,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    },
+    {
+      "dataset": "ORL",
+      "variant": "D_mse",
+      "seed": 44,
+      "predictions": 40,
+      "accuracy": 0.825,
+      "checkpoint_predictions_match": true,
+      "metrics_match": true,
+      "history_match": true
+    }
+  ]
+}

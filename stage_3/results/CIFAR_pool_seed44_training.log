@@ -1,0 +1,13 @@
+[transformers] Disabling PyTorch because PyTorch >= 2.4 is required but found 2.2.2
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+CIFAR C_average_pool seed 44 epoch 1/10: train CE=1.5416, train acc=44.90%, test CE=1.5438, test acc=45.24% (12.0s)
+CIFAR C_average_pool seed 44 epoch 2/10: train CE=1.3722, train acc=51.04%, test CE=1.3901, test acc=50.88% (12.5s)
+CIFAR C_average_pool seed 44 epoch 3/10: train CE=1.3711, train acc=51.92%, test CE=1.4009, test acc=51.07% (11.6s)
+CIFAR C_average_pool seed 44 epoch 4/10: train CE=1.2381, train acc=56.43%, test CE=1.2836, test acc=54.95% (13.1s)
+CIFAR C_average_pool seed 44 epoch 5/10: train CE=1.2055, train acc=57.25%, test CE=1.2641, test acc=55.28% (13.8s)
+CIFAR C_average_pool seed 44 epoch 6/10: train CE=1.1558, train acc=59.48%, test CE=1.2213, test acc=56.96% (11.3s)
+CIFAR C_average_pool seed 44 epoch 7/10: train CE=1.1255, train acc=60.31%, test CE=1.2012, test acc=57.10% (12.0s)
+CIFAR C_average_pool seed 44 epoch 8/10: train CE=1.0903, train acc=61.60%, test CE=1.1855, test acc=57.95% (11.5s)
+CIFAR C_average_pool seed 44 epoch 9/10: train CE=1.0865, train acc=61.53%, test CE=1.1884, test acc=57.89% (11.5s)
+CIFAR C_average_pool seed 44 epoch 10/10: train CE=1.0290, train acc=64.42%, test CE=1.1423, test acc=59.82% (11.6s)
+CIFAR C_average_pool: accuracy 59.82% ± 0.000 percentage points

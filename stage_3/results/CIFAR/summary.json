@@ -1,0 +1,54 @@
+[
+  {
+    "dataset": "CIFAR",
+    "experiment": "A_baseline",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.6228333333333333,
+    "accuracy_sd": 0.005834666514320561,
+    "precision_mean": 0.6311383888077328,
+    "precision_sd": 0.004200062772033838,
+    "recall_mean": 0.6228333333333333,
+    "recall_sd": 0.005834666514320554,
+    "f1_mean": 0.6188983587431508,
+    "f1_sd": 0.009263647889310698
+  },
+  {
+    "dataset": "CIFAR",
+    "experiment": "B_deeper",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.6388333333333334,
+    "accuracy_sd": 0.01765257299470345,
+    "precision_mean": 0.6429288164289068,
+    "precision_sd": 0.016216879473413746,
+    "recall_mean": 0.6388333333333334,
+    "recall_sd": 0.017652572994703495,
+    "f1_mean": 0.6348898172671482,
+    "f1_sd": 0.019801836972160577
+  },
+  {
+    "dataset": "CIFAR",
+    "experiment": "C_average_pool",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.6051333333333333,
+    "accuracy_sd": 0.009685728332620805,
+    "precision_mean": 0.6079611321904003,
+    "precision_sd": 0.010417275128256067,
+    "recall_mean": 0.6051333333333333,
+    "recall_sd": 0.00968572833262079,
+    "f1_mean": 0.6028215759711218,
+    "f1_sd": 0.009441453519391999
+  },
+  {
+    "dataset": "CIFAR",
+    "experiment": "D_mse",
+    "seeds": "42;43;44",
+    "accuracy_mean": 0.6223000000000001,
+    "accuracy_sd": 0.007653103945458953,
+    "precision_mean": 0.6306687732008215,
+    "precision_sd": 0.004473284099267597,
+    "recall_mean": 0.6223000000000001,
+    "recall_sd": 0.007653103945458953,
+    "f1_mean": 0.6215725757500494,
+    "f1_sd": 0.005375371488630486
+  }
+]
