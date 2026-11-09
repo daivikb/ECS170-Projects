@@ -1983,34 +1983,52 @@
     "dataset": "ORL",
     "name": "B_deeper",
     "seed": 42,
+    "fold": null,
+    "folds": 0,
     "device": "cpu",
     "threads": 4,
     "epochs": 40,
     "batch_size": 32,
-    "lr": 0.001,
+    "augment": {
+      "pad": 8,
+      "flip": true
+    },
+    "dropout": 0.0,
+    "weight_decay": 0.0,
+    "cosine": false,
     "depth": 3,
     "pool": "max",
-    "loss": "cross_entropy"
+    "loss": "cross_entropy",
+    "kernel": 3,
+    "channels": [
+      8,
+      16
+    ],
+    "hidden": 128,
+    "batchnorm": false,
+    "optimizer": "adam",
+    "lr": 0.001
   },
   "dataset_sha256": "94a49cfe24429ccb7caba3439924a30cf5dfbe5fbfa003b7d4edb70d17a7a271",
   "parameters": 324248,
   "final_train": {
-    "loss": 0.0004565517068840563,
-    "cross_entropy": 0.0004565517068840563,
+    "loss": 0.010224149934947491,
+    "cross_entropy": 0.010224149934947491,
     "accuracy": 1.0
   },
   "final_test": {
-    "loss": 0.259983104467392,
-    "cross_entropy": 0.259983104467392,
+    "loss": 0.07130281552672386,
+    "cross_entropy": 0.07130281552672386,
     "accuracy": 0.975
   },
-  "training_seconds": 18.73908069897152,
+  "training_seconds": 18.022235459648073,
   "environment": {
-    "python": "3.12.10",
-    "torch": "2.2.2",
-    "numpy": "1.26.4",
-    "sklearn": "1.5.2",
-    "platform": "macOS-15.2-x86_64-i386-64bit"
+    "python": "3.11.14",
+    "torch": "2.15.0",
+    "numpy": "2.4.6",
+    "sklearn": "1.9.1",
+    "scipy": "1.17.1",
+    "platform": "macOS-26.5.1-arm64-arm-64bit"
   },
-  "source_sha256": "859e1f89026b347ecba49e3533e224c0e1130f7e196d0fb145caf1aaba729909"
+  "source_sha256": "081fa2e40d29c15597322879a50f28dd2026e33a14f248978faab78942320cdc"
 }

@@ -1,19 +1,19 @@
 {
-  "accuracy": 0.975,
+  "accuracy": 0.925,
   "macro": {
-    "precision": 0.9625,
-    "recall": 0.975,
-    "f1": 0.9666666666666666
+    "precision": 0.9,
+    "recall": 0.925,
+    "f1": 0.9083333333333332
   },
   "weighted": {
-    "precision": 0.9625,
-    "recall": 0.975,
-    "f1": 0.9666666666666666
+    "precision": 0.9,
+    "recall": 0.925,
+    "f1": 0.9083333333333332
   },
   "micro": {
-    "precision": 0.975,
-    "recall": 0.975,
-    "f1": 0.975
+    "precision": 0.925,
+    "recall": 0.925,
+    "f1": 0.925
   },
   "per_class": [
     {
@@ -67,9 +67,9 @@
     },
     {
       "label": 8,
-      "precision": 0.5,
+      "precision": 1.0,
       "recall": 1.0,
-      "f1": 0.6666666666666666,
+      "f1": 1.0,
       "support": 1
     },
     {
@@ -81,9 +81,9 @@
     },
     {
       "label": 10,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666,
       "support": 1
     },
     {
@@ -123,9 +123,9 @@
     },
     {
       "label": 16,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
       "support": 1
     },
     {
@@ -172,9 +172,9 @@
     },
     {
       "label": 23,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
       "support": 1
     },
     {
@@ -214,9 +214,9 @@
     },
     {
       "label": 29,
-      "precision": 1.0,
+      "precision": 0.5,
       "recall": 1.0,
-      "f1": 1.0,
+      "f1": 0.6666666666666666,
       "support": 1
     },
     {
@@ -277,9 +277,9 @@
     },
     {
       "label": 38,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
       "support": 1
     },
     {
@@ -684,9 +684,9 @@
       0,
       0,
       0,
+      0,
+      0,
       1,
-      0,
-      0,
       0,
       0,
       0,
@@ -938,13 +938,13 @@
       0,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
       1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
@@ -1245,22 +1245,22 @@
       0,
       0,
       0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
       0,
       0
     ],
@@ -1881,16 +1881,16 @@
       0,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
       1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       0,
       0
     ],
@@ -1983,34 +1983,52 @@
     "dataset": "ORL",
     "name": "B_deeper",
     "seed": 43,
+    "fold": null,
+    "folds": 0,
     "device": "cpu",
     "threads": 4,
     "epochs": 40,
     "batch_size": 32,
-    "lr": 0.001,
+    "augment": {
+      "pad": 8,
+      "flip": true
+    },
+    "dropout": 0.0,
+    "weight_decay": 0.0,
+    "cosine": false,
     "depth": 3,
     "pool": "max",
-    "loss": "cross_entropy"
+    "loss": "cross_entropy",
+    "kernel": 3,
+    "channels": [
+      8,
+      16
+    ],
+    "hidden": 128,
+    "batchnorm": false,
+    "optimizer": "adam",
+    "lr": 0.001
   },
   "dataset_sha256": "94a49cfe24429ccb7caba3439924a30cf5dfbe5fbfa003b7d4edb70d17a7a271",
   "parameters": 324248,
   "final_train": {
-    "loss": 0.0002442605004438923,
-    "cross_entropy": 0.0002442605004438923,
-    "accuracy": 1.0
+    "loss": 0.03474169758588282,
+    "cross_entropy": 0.03474169758588282,
+    "accuracy": 0.9888888888888889
   },
   "final_test": {
-    "loss": 0.24913643598556517,
-    "cross_entropy": 0.24913643598556517,
-    "accuracy": 0.975
+    "loss": 0.14642728567123414,
+    "cross_entropy": 0.14642728567123414,
+    "accuracy": 0.925
   },
-  "training_seconds": 19.295916506976937,
+  "training_seconds": 23.472725795581937,
   "environment": {
-    "python": "3.12.10",
-    "torch": "2.2.2",
-    "numpy": "1.26.4",
-    "sklearn": "1.5.2",
-    "platform": "macOS-15.2-x86_64-i386-64bit"
+    "python": "3.11.14",
+    "torch": "2.15.0",
+    "numpy": "2.4.6",
+    "sklearn": "1.9.1",
+    "scipy": "1.17.1",
+    "platform": "macOS-26.5.1-arm64-arm-64bit"
   },
-  "source_sha256": "859e1f89026b347ecba49e3533e224c0e1130f7e196d0fb145caf1aaba729909"
+  "source_sha256": "081fa2e40d29c15597322879a50f28dd2026e33a14f248978faab78942320cdc"
 }
