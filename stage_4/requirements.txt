@@ -1,0 +1,6 @@
+# Tested with Python 3.12 on CPU.
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.5.2
+torch==2.2.2
+matplotlib==3.10.9

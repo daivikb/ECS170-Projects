@@ -1,0 +1,228 @@
+{
+  "status": "passed",
+  "runs": 18,
+  "test_predictions": 225000,
+  "checks": [
+    {
+      "task": "classification",
+      "cell": "RNN",
+      "seed": 42,
+      "best_epoch": 2,
+      "status": "passed",
+      "max_probability_difference": 1.1920928955078125e-07
+    },
+    {
+      "task": "classification",
+      "cell": "RNN",
+      "seed": 43,
+      "best_epoch": 4,
+      "status": "passed",
+      "max_probability_difference": 1.1920928955078125e-07
+    },
+    {
+      "task": "classification",
+      "cell": "RNN",
+      "seed": 44,
+      "best_epoch": 3,
+      "status": "passed",
+      "max_probability_difference": 1.1920928955078125e-07
+    },
+    {
+      "task": "classification",
+      "cell": "LSTM",
+      "seed": 42,
+      "best_epoch": 3,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "classification",
+      "cell": "LSTM",
+      "seed": 43,
+      "best_epoch": 3,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "classification",
+      "cell": "LSTM",
+      "seed": 44,
+      "best_epoch": 2,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "classification",
+      "cell": "GRU",
+      "seed": 42,
+      "best_epoch": 2,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "classification",
+      "cell": "GRU",
+      "seed": 43,
+      "best_epoch": 3,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "classification",
+      "cell": "GRU",
+      "seed": 44,
+      "best_epoch": 2,
+      "status": "passed",
+      "max_probability_difference": 0.0
+    },
+    {
+      "task": "generation",
+      "cell": "RNN",
+      "seed": 42,
+      "best_epoch": 14,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "RNN",
+      "seed": 43,
+      "best_epoch": 12,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "RNN",
+      "seed": 44,
+      "best_epoch": 14,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "LSTM",
+      "seed": 42,
+      "best_epoch": 19,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "LSTM",
+      "seed": 43,
+      "best_epoch": 19,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "LSTM",
+      "seed": 44,
+      "best_epoch": 20,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "GRU",
+      "seed": 42,
+      "best_epoch": 15,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "GRU",
+      "seed": 43,
+      "best_epoch": 15,
+      "status": "passed"
+    },
+    {
+      "task": "generation",
+      "cell": "GRU",
+      "seed": 44,
+      "best_epoch": 14,
+      "status": "passed"
+    }
+  ],
+  "source_sha256": "30aab7c0a1918c9c2d25e9fd6a3006729a930cacbf73644a685222537ea1d641",
+  "checkpoints": {
+    "results/classification/RNN/seed_42/model.pt": {
+      "sha256": "4dfe864c40df2aa20d03d7a1befd7f28e8e5d6bb035feb038c6a69384b593e8f",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/RNN/seed_43/model.pt": {
+      "sha256": "ec61908dadb0d9feb0b2976aa1d54c4e3be64e3ed3e3842dda30e39ab82e6345",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/RNN/seed_44/model.pt": {
+      "sha256": "28cb9a8a7ff849c41f0e2bbcd109c0020396a018beb5ab9b8434fcca2af750ad",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/LSTM/seed_42/model.pt": {
+      "sha256": "216977d31d577ec97fe66b0d43991b26b7e72b0c761c634ab6933735818cda2c",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/LSTM/seed_43/model.pt": {
+      "sha256": "82b05446d3b1605c23dc51d4b8b34ab4b60d3750c35a3ee8d85e697026a0f4f2",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/LSTM/seed_44/model.pt": {
+      "sha256": "45ec8187f32ee1ff35d64063bdb236e01a4534d4dda6b4459ef5088c93708bf1",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/GRU/seed_42/model.pt": {
+      "sha256": "8bd5c30ee2a9bb2469707c440470eebfd67fb8897a18307001a6ec0f9b3b2388",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/GRU/seed_43/model.pt": {
+      "sha256": "b4c51027fcbe1a69847caa326ea9dfa00f4d7e8475676f3afdb2c8342ffd2dc4",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/classification/GRU/seed_44/model.pt": {
+      "sha256": "d5c2d45b1a22604f8ad6fb82c55c7281ee47917a9d7197471dd18cc85ec1a91b",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/RNN/seed_42/model.pt": {
+      "sha256": "a84b6c0cc9ce8bea6c127bdb911fa7b48efb309a7d33045d693b0e97a6c7cc63",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/RNN/seed_43/model.pt": {
+      "sha256": "c3edec7c724e45c7740937e2158df4576cd7203a0fd2a27f2712b1a04de70fc5",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/RNN/seed_44/model.pt": {
+      "sha256": "6c7246e4ccef92b7aeb98687698055f121a05714e3416aca61ea68ecd5b57db2",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/LSTM/seed_42/model.pt": {
+      "sha256": "9347e6ee80487c2855a3729954c519cd0b8a2bd497dcdef231b70909a0954f50",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/LSTM/seed_43/model.pt": {
+      "sha256": "6cec576b420f44528186c14631b98a7b786f35d426d445911560fb6f34c9a131",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/LSTM/seed_44/model.pt": {
+      "sha256": "3d3303ec87c647301f82a0eef7a1760edf8bd8117ce498cce48ac9994086a6c5",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/GRU/seed_42/model.pt": {
+      "sha256": "85b44eb598a7b27988babdf07d1d0219dedfac31c183bbfbe5cf5364ced2013b",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/GRU/seed_43/model.pt": {
+      "sha256": "8eef841fb44b298781ff99fabd1ee839ffcb83ef6bc334ff01bc092f81d22e68",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    },
+    "results/generation/GRU/seed_44/model.pt": {
+      "sha256": "10f85c400721fc72a8ffc37a02d558f141e06c3daedaf82db45023c469bda8a3",
+      "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d"
+    }
+  },
+  "training_source_sha256": "f4dfe509a3c08761a871e8f0534a3d56586653b2c59bccf14df581a12023163d",
+  "changed_functions": [
+    "Method_RNN.generate",
+    "Result_Saver.load",
+    "compatible_source",
+    "main",
+    "make_config",
+    "summarize"
+  ],
+  "training_and_preprocessing_unchanged": true,
+  "note": "Original training provenance retained. Revised source reproduces all saved predictions and generation examples."
+}
