@@ -7,7 +7,11 @@ generation, using seeds 42, 43, and 44 (18 models).
 
 ## Setup
 
-Use Python 3.12 and the Stage 2/3 virtual environment, or create a new environment:
+With [uv](https://docs.astral.sh/uv/) no setup is needed: `stage4.py` lists its own
+dependencies, and `uv run stage4.py ...` fetches Python 3.12 and all packages into a
+cached temporary environment. Everywhere below, `python stage4.py` can be replaced by
+`uv run stage4.py`. Without uv, create a Python 3.12 environment and install
+`requirements.txt` (the pins are identical to the inline metadata):
 
 ```bash
 python3.12 -m venv .venv

@@ -1,0 +1,82 @@
+{
+  "train": {
+    "loss": 0.16500659988986122,
+    "accuracy": 0.9437777777777778,
+    "count": 22500
+  },
+  "validation": {
+    "loss": 0.3844398783683777,
+    "accuracy": 0.8352,
+    "count": 2500
+  },
+  "accuracy": 0.82152,
+  "confusion_matrix": [
+    [
+      11323,
+      1177
+    ],
+    [
+      3285,
+      9215
+    ]
+  ],
+  "binary": {
+    "precision": 0.8867397998460355,
+    "recall": 0.7372,
+    "f1": 0.8050847457627118
+  },
+  "macro": {
+    "precision": 0.8309315099996881,
+    "recall": 0.82152,
+    "f1": 0.8202419449633982
+  },
+  "weighted": {
+    "precision": 0.8309315099996881,
+    "recall": 0.82152,
+    "f1": 0.8202419449633981
+  },
+  "test": {
+    "loss": 0.4149030658531189,
+    "accuracy": 0.82152,
+    "count": 25000
+  },
+  "config": {
+    "task": "classification",
+    "cell": "LSTM",
+    "seed": 42,
+    "vocabulary_size": 12000,
+    "embedding_dim": 48,
+    "hidden_dim": 64,
+    "epochs": 6,
+    "batch_size": 128,
+    "lr": 0.003,
+    "max_length": 160,
+    "device": "cpu",
+    "threads": 4
+  },
+  "dataset": {
+    "counts": {
+      "train": 22500,
+      "validation": 2500,
+      "test": 25000
+    },
+    "max_length": 160,
+    "vocabulary_size": 12000,
+    "train_truncated_fraction": 0.6424888888888889,
+    "split_seed": 170,
+    "label_names": [
+      "negative",
+      "positive"
+    ],
+    "dataset_sha256": "d60be5ecc0889c81007a5024012ca2563961545e002794ba8e58789c61217b97"
+  },
+  "best_epoch": 4,
+  "parameters": 605314,
+  "training_seconds": 130.6657408340252,
+  "source_sha256": "cd82474b07f8d9e992411d856a4e3cc9e6ae7e71b0641fca70fbeccc8d0959aa",
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.2.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit"
+  }
+}

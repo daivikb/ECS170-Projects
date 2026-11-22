@@ -1,0 +1,49 @@
+{
+  "train": {
+    "loss": 3.5908817610853356,
+    "accuracy": 0.3223781388478582,
+    "count": 27080,
+    "perplexity": 36.26603981477695
+  },
+  "validation": {
+    "loss": 5.27844769004364,
+    "accuracy": 0.2601407978545089,
+    "count": 2983,
+    "perplexity": 196.06528490971192
+  },
+  "config": {
+    "task": "generation",
+    "cell": "GRU",
+    "seed": 42,
+    "vocabulary_size": 4486,
+    "embedding_dim": 48,
+    "hidden_dim": 64,
+    "epochs": 20,
+    "batch_size": 64,
+    "lr": 0.003,
+    "max_length": null,
+    "device": "cpu",
+    "threads": 4
+  },
+  "dataset": {
+    "original_jokes": 1622,
+    "unique_jokes": 1605,
+    "counts": {
+      "train": 1444,
+      "validation": 161
+    },
+    "vocabulary_size": 4486,
+    "split_seed": 170,
+    "validation_unknown_fraction": 0.09922041105598867,
+    "dataset_sha256": "a4af796b82cc608c2cd25f272a4469a34413fc4c95efc2e6042a2e2b259a58c0"
+  },
+  "best_epoch": 17,
+  "parameters": 528806,
+  "training_seconds": 54.1238827498164,
+  "source_sha256": "cd82474b07f8d9e992411d856a4e3cc9e6ae7e71b0641fca70fbeccc8d0959aa",
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.2.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit"
+  }
+}

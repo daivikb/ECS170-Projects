@@ -1,3 +1,14 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12,<3.13"
+# dependencies = [
+#     "numpy==1.26.4",
+#     "scipy==1.13.1",
+#     "scikit-learn==1.5.2",
+#     "torch==2.2.2",
+#     "matplotlib==3.10.9",
+# ]
+# ///
 """ECS 170 Stage 4: recurrent sentiment classification and joke generation.
 
 The five starter-template roles are kept together, following the Stage 3 layout.

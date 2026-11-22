@@ -14,19 +14,23 @@ in report section 3.4.
 
 ## Quick start
 
-Use Python 3.12. From this folder, after activating a virtual environment:
+The easiest way is [uv](https://docs.astral.sh/uv/). `stage4.py` declares its own
+dependencies (inline PEP 723 metadata), so `uv run` downloads Python 3.12 and every
+package into a cached, throwaway environment. There is nothing to create or activate:
 
 ```bash
-python -m pip install -r requirements.txt
-python stage4.py --plots-only
-python stage4.py --checkpoint results/generation/GRU/seed_42/model.pt --prompt "what did the"
+uv run stage4.py --plots-only
+uv run stage4.py --checkpoint results/generation/GRU/seed_42/model.pt --prompt "what did the"
 ```
 
-These commands work from the ZIP without raw data. For training, place the supplied
-datasets as described in [data/ReadMe.txt](data/ReadMe.txt), then run:
+The first run downloads PyTorch and takes a few minutes; later runs start immediately.
+Without uv, `python -m pip install -r requirements.txt` in a Python 3.12 environment and
+`python stage4.py ...` still work. These commands work from the ZIP without raw data.
+For training, place the supplied datasets as described in [data/ReadMe.txt](data/ReadMe.txt)
+(or pass `--data-dir path/to/stage_4_data`), then run:
 
 ```bash
-python stage4.py --output-dir reproduced_results
+uv run stage4.py --output-dir reproduced_results
 ```
 
 The defaults match the submitted experiments: six classification epochs and
@@ -102,26 +106,4 @@ its learning history and metrics. Raw datasets, per-review predictions, redundan
 per-run files, caches, virtual environments, and unrelated stages are excluded.
 The complete working folder retains the original data and detailed run artifacts.
 
-## Remaining formal report checklist
 
-Use the [instructor's report template](https://docs.google.com/document/d/1fLUhtUe_Rm4x-sL4N-LxBJ57k0enaCEnQNvWwTUkNY0/edit?usp=sharing),
-also saved with the earlier project materials as `reference/report_template.docx`.
-The template asks for 10-point font, single spacing, and no more than five pages.
-
-| Template section | Material to use or finish |
-|---|---|
-| Team information | Add team name, member names, student IDs, and emails. |
-| 1: Task description | Describe sentiment classification and next-token text generation. |
-| 2: Model description | Use the architecture descriptions in `REPORT_METRICS.md`; draw the required architecture diagram. |
-| 3.1: Datasets | Use section 4-1 of `REPORT_METRICS.md`, including fixed splits and preprocessing. |
-| 3.2: Experimental setup | Use dimensions, dropout, optimizer, clipping, seeds, epoch budgets, and checkpoint selection in section 4-2. Initialization uses PyTorch's default embedding/recurrent/linear initializers after `torch.manual_seed(seed)`. |
-| 3.3: Metrics | Define classification accuracy and macro precision/recall/F1; explain generation perplexity, token accuracy, and qualitative comparison. |
-| 3.4: Source code | Add the [published source folder](https://github.com/daivikb/ECS170-Projects/tree/main/stage_4) link to the report and verify that the grader can access it. |
-| 3.5: Convergence | Insert the classification and generation `loss_vs_epoch.png` figures; discuss overfitting and validation selection. |
-| 3.6: Performance | Use both comparison CSVs plus representative generated text and its nearest training joke. |
-| 3.7: Ablation studies | Compare RNN, LSTM, and GRU with the fixed settings and acknowledge different parameter counts and the limited epoch budget. |
-
-Check the actual course submission page for upload slots. The supplied project
-description and template do not establish a required ZIP layout or separate model
-upload. Keep the report within five pages, and verify that its source-code link is
-accessible to the grader.

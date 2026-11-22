@@ -1,0 +1,49 @@
+{
+  "train": {
+    "loss": 3.8703505305543078,
+    "accuracy": 0.2993353028064993,
+    "count": 27080,
+    "perplexity": 47.95919429771168
+  },
+  "validation": {
+    "loss": 5.340505151911706,
+    "accuracy": 0.25377137110291653,
+    "count": 2983,
+    "perplexity": 208.61806749176955
+  },
+  "config": {
+    "task": "generation",
+    "cell": "LSTM",
+    "seed": 42,
+    "vocabulary_size": 4486,
+    "embedding_dim": 48,
+    "hidden_dim": 64,
+    "epochs": 20,
+    "batch_size": 64,
+    "lr": 0.003,
+    "max_length": null,
+    "device": "cpu",
+    "threads": 4
+  },
+  "dataset": {
+    "original_jokes": 1622,
+    "unique_jokes": 1605,
+    "counts": {
+      "train": 1444,
+      "validation": 161
+    },
+    "vocabulary_size": 4486,
+    "split_seed": 170,
+    "validation_unknown_fraction": 0.09922041105598867,
+    "dataset_sha256": "a4af796b82cc608c2cd25f272a4469a34413fc4c95efc2e6042a2e2b259a58c0"
+  },
+  "best_epoch": 20,
+  "parameters": 536102,
+  "training_seconds": 54.12456933403155,
+  "source_sha256": "cd82474b07f8d9e992411d856a4e3cc9e6ae7e71b0641fca70fbeccc8d0959aa",
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.2.2",
+    "platform": "macOS-27.2.1-arm64-arm-64bit"
+  }
+}

@@ -139,7 +139,7 @@
       "status": "passed"
     }
   ],
-  "source_sha256": "30aab7c0a1918c9c2d25e9fd6a3006729a930cacbf73644a685222537ea1d641",
+  "source_sha256": "cd82474b07f8d9e992411d856a4e3cc9e6ae7e71b0641fca70fbeccc8d0959aa",
   "checkpoints": {
     "results/classification/RNN/seed_42/model.pt": {
       "sha256": "4dfe864c40df2aa20d03d7a1befd7f28e8e5d6bb035feb038c6a69384b593e8f",
@@ -224,5 +224,5 @@
     "summarize"
   ],
   "training_and_preprocessing_unchanged": true,
-  "note": "Original training provenance retained. Revised source reproduces all saved predictions and generation examples."
+  "note": "Original training provenance retained. Revised source reproduces all saved predictions and generation examples. Later change: only an 11-line comment header (uv inline script metadata) was added to stage4.py; no code changed. Retraining GRU generation and RNN classification with seed 42 and reevaluating all 18 checkpoints reproduced the saved results."
 }
